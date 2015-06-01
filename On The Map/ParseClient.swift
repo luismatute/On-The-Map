@@ -14,6 +14,7 @@ class ParseClient: NSObject {
         Constants.APPID: "X-Parse-Application-Id",
         Constants.APIKey: "X-Parse-REST-API-Key"
     ]
+    var locations = [StudentLocation]()
     
     // MARK: - Class Properties
     override init() {
@@ -21,33 +22,37 @@ class ParseClient: NSObject {
     }
     
     // MARK: - Convinience
-    func getStudentLocations(callback: (result: [StudentLocation]?, errorString: String?) -> Void) {
+    func getStudentLocations(forceDownload: Bool, callback: (result: [StudentLocation]?, errorString: String?) -> Void) {
         let parameters = [ParameterKeys.Limit: 100]
         let mutableParameters = $.escapedParameters(parameters)
         let urlString = "\(ParseClient.Constants.BaseURL)\(ParseClient.Methods.StudentLocation)" + mutableParameters
         var le_results = [StudentLocation]()
         
-        $.get(urlString).genericValues(auth).parseJSONWithCompletion(0) { (result, response, error) in
-            println(result)
-            println(error)
-            println(response)
-            if let error = error {
-                callback(result: nil, errorString: "Error")
-            } else {
-                if let results = result.valueForKey(JSONResponseKeys.Results) as? [[String : AnyObject]] {
-                    var locations = StudentLocation.studentLocationFromResults(results)
-                    callback(result: locations, errorString: nil)
+        // Check if we have already loaded the locations
+        // If there is nothing, fetch them
+        if self.locations.count == 0 || forceDownload == true {
+            $.get(urlString).genericValues(auth).parseJSONWithCompletion(0) { (result, response, error) in
+                if let error = error {
+                    callback(result: nil, errorString: "Error")
                 } else {
-                    callback(result: nil, errorString: "No Results Found")
+                    if let results = result.valueForKey(JSONResponseKeys.Results) as? [[String : AnyObject]] {
+                        var locations = StudentLocation.studentLocationFromResults(results)
+                        callback(result: locations, errorString: nil)
+                    } else {
+                        callback(result: nil, errorString: "No Results Found")
+                    }
                 }
             }
+        } else {
+            callback(result: self.locations, errorString: nil)
         }
     }
     
     func postStudentLocation(studentLocation: StudentLocation, callback: (success: Bool, errorString: String) -> Void) {
         let urlString = "\(ParseClient.Constants.BaseURL)\(ParseClient.Methods.StudentLocation)"
+        let jsonBody: String = "{\"uniqueKey\": \"\(studentLocation.uniqueKey)\", \"firstName\": \"\(studentLocation.firstName)\", \"lastName\": \"\(studentLocation.lastName)\",\"mapString\": \"\(studentLocation.mapString)\", \"mediaURL\": \"\(studentLocation.mediaURL)\",\"latitude\": \(studentLocation.latitude), \"longitude\": \(studentLocation.longitude)}"
         
-        $.post(urlString).genericValues(auth).parseJSONWithCompletion(0) { (result, response, error) in
+        $.post(urlString).genericValues(auth).json(jsonBody).parseJSONWithCompletion(0) { (result, response, error) in
             println(result)
             println(error)
             println(response)

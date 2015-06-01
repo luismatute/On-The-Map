@@ -69,7 +69,6 @@ class $ {
     }
     func genericValues(dict: [String:String]) -> $ {
         for (val,head) in dict {
-            println((val,head))
             self.request.addValue(val, forHTTPHeaderField: head)
         }
         return self

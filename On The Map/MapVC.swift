@@ -49,7 +49,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     // MARK: - Methods
     func init_map() {
-        ParseClient.sharedInstance().getStudentLocations() { result, error in
+
+        ParseClient.sharedInstance().getStudentLocations(false) { result, error in
             if let locations = result {
                 self.locations = locations
                 var annotations = [MKPointAnnotation]()
@@ -76,6 +77,24 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 println(error)
             }
         }
+        
+        /*
+        // Posting my location
+        var location_dict = [
+            "firstName": "Luis",
+            "lastName": "Matute",
+            "latitude": 15.5611942,
+            "longitude": -88.0228433,
+            "mapString": "San Pedro Sula, Cortes, Honduras.",
+            "mediaURL": "https://www.linkedin.com/in/matuteluis",
+            "uniqueKey": "\(UdacityClient.sharedInstance().userID)"
+        ]
+        var studentLocation = StudentLocation(dictionary: location_dict as! [String : AnyObject])
+        
+        ParseClient.sharedInstance().postStudentLocation(studentLocation) { result, error in
+        
+        }
+        */
     }
 
 }

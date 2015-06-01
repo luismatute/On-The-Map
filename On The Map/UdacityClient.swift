@@ -23,7 +23,6 @@ class UdacityClient: NSObject {
         let jsonBody: String = "{\"\(UdacityClient.JSONBodyKeys.Udacity)\": {\"\(UdacityClient.JSONBodyKeys.Username)\": \"\(username)\", \"\(UdacityClient.JSONBodyKeys.Password)\": \"\(passwd)\"}}"
         
         $.post("\(UdacityClient.URLs.BaseURL)\(UdacityClient.Methods.Session)").json(jsonBody).parseJSONWithCompletion(5){ (result, response, error) in
-            println(result)
             if let error = error {
                 callback(success: false, error: "error")
             } else {

@@ -12,9 +12,13 @@
 		973CB1341B0E72EB00AA63D1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973CB1331B0E72EB00AA63D1 /* Images.xcassets */; };
 		973CB1371B0E72EB00AA63D1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 973CB1351B0E72EB00AA63D1 /* LaunchScreen.xib */; };
 		973CB1431B0E72EB00AA63D1 /* On_The_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973CB1421B0E72EB00AA63D1 /* On_The_MapTests.swift */; };
+		9743515D1B1CA2B300FEC582 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743515C1B1CA2B300FEC582 /* TabBarVC.swift */; };
+		9743515F1B1CA4D100FEC582 /* NavBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743515E1B1CA4D100FEC582 /* NavBarVC.swift */; };
 		977413FA1B174E1D00A03248 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977413F91B174E1D00A03248 /* ParseClient.swift */; };
 		977413FC1B174F9E00A03248 /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977413FB1B174F9E00A03248 /* StudentLocation.swift */; };
 		977413FE1B17510B00A03248 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977413FD1B17510B00A03248 /* ParseConstants.swift */; };
+		977414001B17814E00A03248 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977413FF1B17814E00A03248 /* TableVC.swift */; };
+		977414021B17B00900A03248 /* postVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977414011B17B00900A03248 /* postVC.swift */; };
 		97F87DE31B14C07700E7C608 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F87DE01B14C07700E7C608 /* Roboto-Medium.ttf */; };
 		97F87DE41B14C07700E7C608 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F87DE11B14C07700E7C608 /* Roboto-Regular.ttf */; };
 		97F87DE51B14C07700E7C608 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F87DE21B14C07700E7C608 /* Roboto-Thin.ttf */; };
@@ -45,9 +49,13 @@
 		973CB13C1B0E72EB00AA63D1 /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On The MapTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		973CB1411B0E72EB00AA63D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		973CB1421B0E72EB00AA63D1 /* On_The_MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_The_MapTests.swift; sourceTree = "<group>"; };
+		9743515C1B1CA2B300FEC582 /* TabBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		9743515E1B1CA4D100FEC582 /* NavBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarVC.swift; sourceTree = "<group>"; };
 		977413F91B174E1D00A03248 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		977413FB1B174F9E00A03248 /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		977413FD1B17510B00A03248 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
+		977413FF1B17814E00A03248 /* TableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableVC.swift; sourceTree = "<group>"; };
+		977414011B17B00900A03248 /* postVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postVC.swift; sourceTree = "<group>"; };
 		97F87DE01B14C07700E7C608 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		97F87DE11B14C07700E7C608 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		97F87DE21B14C07700E7C608 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
@@ -165,6 +173,10 @@
 			children = (
 				97F87DE61B14CFAA00E7C608 /* LoginVC.swift */,
 				97F87DE81B14D9FF00E7C608 /* MapVC.swift */,
+				977414011B17B00900A03248 /* postVC.swift */,
+				977413FF1B17814E00A03248 /* TableVC.swift */,
+				9743515C1B1CA2B300FEC582 /* TabBarVC.swift */,
+				9743515E1B1CA4D100FEC582 /* NavBarVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -301,14 +313,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9743515F1B1CA4D100FEC582 /* NavBarVC.swift in Sources */,
 				977413FC1B174F9E00A03248 /* StudentLocation.swift in Sources */,
 				97F87DF11B15019D00E7C608 /* utilities.swift in Sources */,
 				97F87DEF1B14F93600E7C608 /* UdacityClient.swift in Sources */,
+				977414001B17814E00A03248 /* TableVC.swift in Sources */,
 				977413FA1B174E1D00A03248 /* ParseClient.swift in Sources */,
 				97F87DE71B14CFAA00E7C608 /* LoginVC.swift in Sources */,
 				977413FE1B17510B00A03248 /* ParseConstants.swift in Sources */,
 				97F87DED1B14F91A00E7C608 /* UdacityConstants.swift in Sources */,
 				97F87DE91B14D9FF00E7C608 /* MapVC.swift in Sources */,
+				977414021B17B00900A03248 /* postVC.swift in Sources */,
+				9743515D1B1CA2B300FEC582 /* TabBarVC.swift in Sources */,
 				973CB12D1B0E72EB00AA63D1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
