@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 
 class TabBarVC: UITabBarController {
- 
+    
     override func viewDidLoad() {
         UITabBar.appearance().tintColor = UIColor.whiteColor()
+
+        var logoutBtn = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "do_logout")
+        self.navigationController?.navigationItem.rightBarButtonItem = logoutBtn
     }
     
 }

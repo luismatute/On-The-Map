@@ -7,11 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 class UdacityClient: NSObject {
     // MARK: - Properties
-    var sessionID: String? = nil
-    var userID: Int? = nil
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     // MARK: - Class Properties
     override init() {
@@ -24,31 +24,49 @@ class UdacityClient: NSObject {
         
         $.post("\(UdacityClient.URLs.BaseURL)\(UdacityClient.Methods.Session)").json(jsonBody).parseJSONWithCompletion(5){ (result, response, error) in
             if let error = error {
-                callback(success: false, error: "error")
+                callback(success: false, error: error.localizedDescription)
             } else {
                 if let errorString = result.valueForKey(UdacityClient.JSONResponseKeys.Error) as? String {
                     callback(success: false, error: errorString)
                 } else {
-                    if let account = result.valueForKey(UdacityClient.JSONResponseKeys.Account) as? [String:AnyObject] {
-                        if let userID: AnyObject = account[UdacityClient.JSONResponseKeys.UserID] {
-                            self.userID = userID as? Int
-                            callback(success: true, error: nil)
-                        } else {
-                            callback(success: false, error: "No UserID Found")
-                        }
-                    } else {
-                        callback(success: false, error: "No Account found")
-                    }
+                    var dict = result as! [String: AnyObject]
+                    var user: User = User(dict: dict)
+                    self.appDelegate.user = user
+                    callback(success: true, error: nil)
                 }
             }
         }
     }
     
+    func getUserInfo(userID: String, callback: (success: Bool, error: String?) -> Void) {
+        var urlString = UdacityClient.URLs.BaseURL + $.subtituteKeyInMethod(UdacityClient.Methods.User, key: UdacityClient.URLKeys.UserID, value: self.appDelegate.user!.id)!
+        $.get(urlString).parseJSONWithCompletion(5) { (result, response, error) in
+            if let error = error {
+                callback(success: false, error: error.localizedDescription)
+            } else {
+                if let userResponse = result["user"] as? [String: AnyObject] {
+                    var user = self.appDelegate.user
+                    user?.firstName = userResponse["first_name"] as! String
+                    user?.lastName = userResponse["last_name"] as! String
+                    self.appDelegate.user = user!
+                    callback(success: true, error: nil)
+                } else {
+                    callback(success: false, error: "No User found")
+                }
+            }
+        }
+    }
+    
+    func loginWithFB() {
+        
+    }
+    
     func doLogout(callback: (success: Bool, error: String?) -> Void) {
         $.delete("\(UdacityClient.URLs.BaseURL)\(UdacityClient.Methods.Session)").cookies().parseJSONWithCompletion(5) { (result, response, error) in
             if let error = error {
-                callback(success: false, error: "")
+                callback(success: false, error: error.localizedDescription)
             } else {
+                self.appDelegate.user = nil
                 callback(success: true, error: nil)
             }
         }

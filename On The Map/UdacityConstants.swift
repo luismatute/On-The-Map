@@ -8,10 +8,16 @@
 
 extension UdacityClient {
 
+    // MARK: - Constants
+    struct Constants {
+        static let fbToken: String = ""
+    }
+    
     // MARK: - URLs
     struct URLs {
 
         static let BaseURL: String = "https://www.udacity.com/api/"
+        static let SignUpURL: String = "https://www.udacity.com/account/auth#!/signin"
     }
     
     // MARK: - Methods

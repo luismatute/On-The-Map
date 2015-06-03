@@ -78,7 +78,6 @@ class $ {
     func parseJSONWithCompletion(removeCharsCount: Int, completion: (result: AnyObject!, response: NSURLResponse!, error: NSError!) -> ()) -> () {
         var session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithRequest(self.request) { data, response, downloadError in
-//            println(data, response, downloadError)
             if let err = downloadError {
                 completion(result: nil, response: response, error: err)
             } else {
@@ -86,7 +85,7 @@ class $ {
                 
                 let newData = data.subdataWithRange(NSMakeRange(removeCharsCount, data.length - removeCharsCount))
                 
-                let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+                let parsedResult = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as? [String : AnyObject]
                 
                 if let error = parsingError {
                     completion(result: nil, response: response, error: error)
@@ -141,4 +140,5 @@ class $ {
         
         return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
     }
+
 }

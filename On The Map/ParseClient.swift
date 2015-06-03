@@ -33,7 +33,7 @@ class ParseClient: NSObject {
         if self.locations.count == 0 || forceDownload == true {
             $.get(urlString).genericValues(auth).parseJSONWithCompletion(0) { (result, response, error) in
                 if let error = error {
-                    callback(result: nil, errorString: "Error")
+                    callback(result: nil, errorString: error.localizedDescription)
                 } else {
                     if let results = result.valueForKey(JSONResponseKeys.Results) as? [[String : AnyObject]] {
                         var locations = StudentLocation.studentLocationFromResults(results)
@@ -48,20 +48,19 @@ class ParseClient: NSObject {
         }
     }
     
-    func postStudentLocation(studentLocation: StudentLocation, callback: (success: Bool, errorString: String) -> Void) {
+    func postStudentLocation(studentLocation: StudentLocation, callback: (success: Bool, errorString: String?) -> Void) {
         let urlString = "\(ParseClient.Constants.BaseURL)\(ParseClient.Methods.StudentLocation)"
         let jsonBody: String = "{\"uniqueKey\": \"\(studentLocation.uniqueKey)\", \"firstName\": \"\(studentLocation.firstName)\", \"lastName\": \"\(studentLocation.lastName)\",\"mapString\": \"\(studentLocation.mapString)\", \"mediaURL\": \"\(studentLocation.mediaURL)\",\"latitude\": \(studentLocation.latitude), \"longitude\": \(studentLocation.longitude)}"
-        
+
         $.post(urlString).genericValues(auth).json(jsonBody).parseJSONWithCompletion(0) { (result, response, error) in
-            println(result)
-            println(error)
-            println(response)
+            if let err = error {
+                callback(success: false, errorString: error.localizedDescription)
+            } else {
+                callback(success: true, errorString: nil)
+            }
+            
         }
     }
-    
-    func putStudentLocation(studentLocation: StudentLocation, callback: (success: Bool, errorString: String) -> Void) {}
-    
-    func queryStudentLocation(studentLocation: StudentLocation, callback: (success: Bool, errorString: String) -> Void) {}
     
     // MARK: - Shared Instance
     class func sharedInstance() -> ParseClient {

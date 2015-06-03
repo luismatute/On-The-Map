@@ -12,14 +12,17 @@ import MapKit
 class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
-    var locations: [StudentLocation] = [StudentLocation]()
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     // MARK: - Properties
+    var locations: [StudentLocation] = [StudentLocation]()
     
     // MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.init_map()
+        self.setup_nav()
     }
     
     // MARK: - Delegate
@@ -46,10 +49,22 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     // MARK: - Actions
+    func do_logout() {
+        self.showLoading(true)
+        UdacityClient.sharedInstance().doLogout() { success, error in
+            self.showLoading(false)
+            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! LoginVC
+            self.presentViewController(loginVC, animated: true, completion: nil)
+        }
+    }
+    func post_location() {
+        let wruVC = self.storyboard?.instantiateViewControllerWithIdentifier("WhereAreYouVC") as! WhereAreYouVC
+        self.presentViewController(wruVC, animated: true, completion: nil)
+    }
     
     // MARK: - Methods
     func init_map() {
-
+        self.showLoading(true)
         ParseClient.sharedInstance().getStudentLocations(false) { result, error in
             if let locations = result {
                 self.locations = locations
@@ -76,25 +91,33 @@ class MapVC: UIViewController, MKMapViewDelegate {
             } else {
                 println(error)
             }
+            self.showLoading(false)
         }
+    }
+    func setup_nav() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "do_logout")
+        var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Pin"), style: UIBarButtonItemStyle.Plain, target: self, action: "post_location")
+        var reloadButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "init_map")
         
-        /*
-        // Posting my location
-        var location_dict = [
-            "firstName": "Luis",
-            "lastName": "Matute",
-            "latitude": 15.5611942,
-            "longitude": -88.0228433,
-            "mapString": "San Pedro Sula, Cortes, Honduras.",
-            "mediaURL": "https://www.linkedin.com/in/matuteluis",
-            "uniqueKey": "\(UdacityClient.sharedInstance().userID)"
-        ]
-        var studentLocation = StudentLocation(dictionary: location_dict as! [String : AnyObject])
+        logoutButton.tintColor = UIColor.whiteColor()
+        pinButton.tintColor = UIColor.whiteColor()
+        reloadButton.tintColor = UIColor.whiteColor()
         
-        ParseClient.sharedInstance().postStudentLocation(studentLocation) { result, error in
-        
+        self.parentViewController!.navigationItem.leftBarButtonItem = logoutButton
+        self.parentViewController!.navigationItem.rightBarButtonItems = [reloadButton, pinButton]
+    }
+    func showLoading(show: Bool) {
+        if show {
+            UIView.animateWithDuration(0.4, animations: {
+                self.loadingView.alpha = 1.0
+                self.spinner.startAnimating()
+            })
+        } else {
+            UIView.animateWithDuration(0.4, animations: {
+                self.loadingView.alpha = 0.0
+                self.spinner.stopAnimating()
+            })
         }
-        */
     }
 
 }
