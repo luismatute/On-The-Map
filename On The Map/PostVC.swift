@@ -66,7 +66,11 @@ class PostVC: UIViewController {
                     }
                     self.showLoading(false)
                 }
+            } else {
+                self.showError()
             }
+        } else {
+            self.showError()
         }
     }
     
@@ -74,7 +78,7 @@ class PostVC: UIViewController {
     func showError(title: String = "", msg: String = "") {
         var alert = UIAlertView()
         alert.title = (title == "") ? "Error" : title
-        alert.message = (msg == "") ? "There seems to be an error" : msg
+        alert.message = (msg == "") ? "Invalid link, please check that you provided a valid link starting with \"http://\"." : msg
         alert.addButtonWithTitle("OK")
         alert.show()
     }
