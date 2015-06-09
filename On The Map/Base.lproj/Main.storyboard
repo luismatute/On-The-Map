@@ -679,13 +679,10 @@
                                 <exclude reference="RS3-k5-Ktt"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="b9v-SX-03u"/>
                                 <exclude reference="6RL-wx-GrV"/>
                                 <exclude reference="m9O-8D-iac"/>
                                 <exclude reference="op1-Mf-SMd"/>
-                                <exclude reference="E5V-0Z-v69"/>
-                                <exclude reference="HzZ-pP-o7M"/>
-                                <exclude reference="rRi-dx-thM"/>
-                                <exclude reference="rdB-Vk-cI7"/>
                                 <exclude reference="BUz-xb-bui"/>
                                 <exclude reference="cSD-pn-cEU"/>
                                 <exclude reference="deB-P4-odl"/>
@@ -699,7 +696,10 @@
                                 <exclude reference="p3j-Aa-2JH"/>
                                 <exclude reference="pUd-ow-j4l"/>
                                 <exclude reference="qdc-ew-GYu"/>
-                                <exclude reference="b9v-SX-03u"/>
+                                <exclude reference="E5V-0Z-v69"/>
+                                <exclude reference="HzZ-pP-o7M"/>
+                                <exclude reference="rRi-dx-thM"/>
+                                <exclude reference="rdB-Vk-cI7"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -711,13 +711,10 @@
                                 <include reference="RS3-k5-Ktt"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="b9v-SX-03u"/>
                                 <include reference="6RL-wx-GrV"/>
                                 <include reference="m9O-8D-iac"/>
                                 <include reference="op1-Mf-SMd"/>
-                                <include reference="E5V-0Z-v69"/>
-                                <exclude reference="HzZ-pP-o7M"/>
-                                <include reference="rRi-dx-thM"/>
-                                <include reference="rdB-Vk-cI7"/>
                                 <exclude reference="BUz-xb-bui"/>
                                 <include reference="cSD-pn-cEU"/>
                                 <include reference="deB-P4-odl"/>
@@ -731,7 +728,10 @@
                                 <include reference="p3j-Aa-2JH"/>
                                 <include reference="pUd-ow-j4l"/>
                                 <include reference="qdc-ew-GYu"/>
-                                <include reference="b9v-SX-03u"/>
+                                <include reference="E5V-0Z-v69"/>
+                                <exclude reference="HzZ-pP-o7M"/>
+                                <include reference="rRi-dx-thM"/>
+                                <include reference="rdB-Vk-cI7"/>
                             </mask>
                         </variation>
                     </view>
@@ -954,7 +954,7 @@
                                         <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="URL" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.90196078430000004" green="0.29803921570000003" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1170,7 +1170,7 @@
         <image name="Udacity" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VOr-eR-eE5"/>
         <segue reference="dFx-qx-wCo"/>
+        <segue reference="VOr-eR-eE5"/>
     </inferredMetricsTieBreakers>
 </document>

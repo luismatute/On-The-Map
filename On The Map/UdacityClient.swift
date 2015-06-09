@@ -57,8 +57,20 @@ class UdacityClient: NSObject {
         }
     }
     
-    func loginWithFB() {
-        
+    func authenticateWithViewController(username: String, password: String, callback: (success: Bool, errorString: String?) -> Void) {
+        self.getSession(username, passwd: password) { (success, errorString) in
+            if success {
+                self.getUserInfo(self.appDelegate.user!.id) { success, errorString in
+                    if success {
+                        callback(success: true, errorString: nil)
+                    } else {
+                        callback(success: false, errorString: errorString)
+                    }
+                }
+            } else {
+                callback(success: false, errorString: errorString)
+            }
+        }
     }
     
     func doLogout(callback: (success: Bool, error: String?) -> Void) {

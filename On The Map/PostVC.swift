@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 
-class PostVC: UIViewController {
+class PostVC: UIViewController, UITextFieldDelegate {
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var linkTextField: UITextField!
@@ -32,6 +32,8 @@ class PostVC: UIViewController {
         } else {
             self.showError(title: "Error", msg: "No location found.")
         }
+        
+        self.linkTextField.delegate = self
         self.loadingView.alpha = 0.0
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {}
@@ -95,4 +97,13 @@ class PostVC: UIViewController {
             })
         }
     }
+    func handleSingleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
 }

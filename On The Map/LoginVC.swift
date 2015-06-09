@@ -39,26 +39,22 @@ class LoginVC: UIViewController {
         }
         let jsonBody: String = "{\"udacity\": {\"\(UdacityClient.JSONBodyKeys.Username)\": \"\(emailTextField.text)\", \"\(UdacityClient.JSONBodyKeys.Password)\": \"\(passwordTextField.text)\"}}"
         
-        self.showLoading(true)
-        UdacityClient.sharedInstance().getSession(self.emailTextField.text, passwd: self.passwordTextField.text) { (success, error) in
+        self.showLoading(true)        
+        UdacityClient.sharedInstance().authenticateWithViewController(emailTextField.text, password: passwordTextField.text) { (success, errorString) in
             if success {
-                UdacityClient.sharedInstance().getUserInfo(self.appDelegate.user!.id) { success, errorString in
-                    if success {
-                        let navVC = self.storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as! UINavigationController
-                        self.presentViewController(navVC, animated: true, completion: nil)
-                    } else {
-                        self.showError(title: "Error", msg: errorString!)
-                        self.showLoading(false)
-                    }
-                }
+                self.complete_login()
             } else {
-                self.showError(title: "Error", msg: error!)
-                self.showLoading(false)
+                self.showError(title: "Login Error", msg: errorString!)
             }
+            self.showLoading(false)
         }
     }
     
     // MARK: - Methods
+    func complete_login() {
+        let navVC = self.storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as! UINavigationController
+        self.presentViewController(navVC, animated: true, completion: nil)
+    }
     func setup_ui() {
         // Gradient for View
         let view: UIView = self.view

@@ -65,7 +65,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Methods
     func init_map() {
         self.showLoading(true)
-        ParseClient.sharedInstance().getStudentLocations(false) { result, error in
+        ParseClient.sharedInstance().getStudentLocations(false) { result, errorString in
             if let locations = result {
                 self.locations = locations
                 var annotations = [MKPointAnnotation]()
@@ -89,7 +89,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 }
                 self.mapView.addAnnotations(annotations)
             } else {
-                println(error)
+                self.showError(title: "Error Downloading Locations", msg: errorString!)
             }
             self.showLoading(false)
         }
@@ -118,6 +118,13 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 self.spinner.stopAnimating()
             })
         }
+    }
+    func showError(title: String = "", msg: String = "") {
+        var alert = UIAlertView()
+        alert.title = (title == "") ? "Error" : title
+        alert.message = (msg == "") ? "Invalid Location" : msg
+        alert.addButtonWithTitle("OK")
+        alert.show()
     }
 
 }

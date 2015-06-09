@@ -20,11 +20,22 @@ class WhereAreYouVC: UIViewController {
     var region = MKCoordinateRegion()
     var dropPin = MKPointAnnotation()
     var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var tapRecognizer: UITapGestureRecognizer? = nil
     
     // MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadingView.alpha = 0.0
+        self.tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        self.tapRecognizer?.numberOfTapsRequired = 1
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "postSegue" {
@@ -84,6 +95,29 @@ class WhereAreYouVC: UIViewController {
                 self.spinner.stopAnimating()
             })
         }
+    }
+    func keyboardWillShow(notification:NSNotification){
+        self.view.frame.origin = CGPointMake(0.0, -getKeyboardHeight(notification))
+    }
+    
+    func keyboardWillHide(notification:NSNotification){
+        self.view.frame.origin = CGPointMake(0.0, 0.0)
+    }
+    
+    func getKeyboardHeight(notification:NSNotification)->CGFloat{
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.CGRectValue().height
+    }
+    
+    func subscribeToKeyboardNotifications(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotifications(){
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object:nil)
     }
 
 }
